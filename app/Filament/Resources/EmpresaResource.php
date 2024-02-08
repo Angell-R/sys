@@ -69,7 +69,7 @@ class EmpresaResource extends Resource
     {
         return $table
         ->emptyStateHeading('Aun no hay Empresas')
-        ->emptyStateDescription('Agrega algo mi loco')
+        ->emptyStateDescription('Agrega Una Empresa')
             ->columns([
                 Tables\Columns\TextColumn::make('rif')
                     ->searchable(),

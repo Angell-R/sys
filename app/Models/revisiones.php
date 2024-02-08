@@ -11,6 +11,10 @@ class revisiones extends Model
     protected $guarded = [];
 
     public function ordenes(){
-        return $this->belongsTo(ordenes::class, 'ordenes_id');
+        return $this->belongsTo(ordenes::class, 'id_ordens');
+    }
+
+    public function emptecnicos(){
+        return $this->belongsTo(emptecnico::class, 'tecnicos');
     }
 }

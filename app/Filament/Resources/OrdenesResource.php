@@ -55,16 +55,18 @@ class OrdenesResource extends Resource
                 ->relationship('empresas','empresa')
                     ->required(),
                 Forms\Components\Select::make('emptecnicos_id')
+                ->label("Tecnico Encargado")
                 ->relationship('emptecnicos','nombre')
                 ->preload()
                     ->required(),
-                Forms\Components\TextInput::make('fechainc')
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('fechafn')
-                    ->required()
-                    ->maxLength(191),
+                Forms\Components\DatePicker::make('fechainc')
+                ->label("Fecha de inicio")
+                    ->required(),
+                Forms\Components\DatePicker::make('fechafn')
+                ->label("Fecha de Finalizacion")
+                    ->required(),
                 Forms\Components\TextInput::make('tiporevis')
+                ->label("Tipo de Revision")
                     ->required()
                     ->maxLength(191),
             ]);

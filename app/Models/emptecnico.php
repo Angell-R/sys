@@ -13,4 +13,7 @@ class emptecnico extends Model
     public function ordenes(){
         return $this->hasMany(ordenes::class, 'id');
     }
+    public function revisiones(){
+        return $this->hasMany(revisiones::class, 'id');
+    }
 }
