@@ -15,6 +15,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -76,7 +77,7 @@ class OrdenesResource extends Resource
     {
         return $table
         ->emptyStateHeading('Aun no hay ordenes')
-        ->emptyStateDescription('Agrega algo mi loco')
+        ->emptyStateDescription('Agrega una Orden')
         ->striped()
             ->columns([
                 Tables\Columns\TextColumn::make('fecha')
@@ -84,12 +85,16 @@ class OrdenesResource extends Resource
                 Tables\Columns\TextColumn::make('empresas.empresa')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('emptecnicos.nombre')
+                ->label("Tecnico Encargado")
                     ->sortable(),
                 Tables\Columns\TextColumn::make('fechainc')
+                ->label("Fecha de inicio")
                     ->searchable(),
                 Tables\Columns\TextColumn::make('fechafn')
+                ->label("Fecha de Finalizacion")
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tiporevis')
+                ->label("Tipo de Revision")
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -109,8 +114,9 @@ class OrdenesResource extends Resource
                     EditAction::make(),
                     DeleteAction::make(),
                     ExportAction::make(),
-                ]),
-            ])
+                ])->tooltip('Actions')
+                ->color('info'),
+            ],position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ExportBulkAction::make(),

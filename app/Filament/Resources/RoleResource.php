@@ -17,6 +17,7 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TagsColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -68,8 +69,9 @@ class RoleResource extends Resource
                     EditAction::make(),
                     DeleteAction::make(),
                     ExportAction::make(),
-                ]),
-            ])
+                ])->tooltip('Actions')
+                ->color('info'),
+            ],position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

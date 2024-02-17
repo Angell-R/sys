@@ -13,6 +13,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -60,6 +61,7 @@ class EmpresaResource extends Resource
                     ->required()
                     ->maxLength(191),
                 Forms\Components\TextInput::make('direct')
+                    ->label("Direccion")
                     ->required()
                     ->maxLength(191),
             ]);
@@ -103,8 +105,9 @@ class EmpresaResource extends Resource
                     EditAction::make(),
                     DeleteAction::make(),
                     ExportAction::make(),
-                ]),
-            ])
+                ])->tooltip('Actions')
+                ->color('info'),
+            ],position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ExportBulkAction::make(),

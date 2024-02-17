@@ -15,6 +15,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Enums\ActionsPosition;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
@@ -46,6 +47,7 @@ class EmptecnicoResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('ci')
+                ->label("C.I")
                     ->required()
                     ->maxLength(191),
                 Forms\Components\TextInput::make('nombre')
@@ -69,7 +71,7 @@ class EmptecnicoResource extends Resource
     {
         return $table
         ->emptyStateHeading('Aun no hay Tecnicos')
-        ->emptyStateDescription('Agrega algo mi loco')
+        ->emptyStateDescription('Agrega nueva informacion')
         ->striped()
             ->columns([
                 Tables\Columns\TextColumn::make('ci')
@@ -100,8 +102,9 @@ class EmptecnicoResource extends Resource
                     EditAction::make(),
                     DeleteAction::make(),
                     ExportAction::make(),
-                ]),
-            ])
+                ])->tooltip('Actions')
+                ->color('info'),
+            ],position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ExportBulkAction::make(),

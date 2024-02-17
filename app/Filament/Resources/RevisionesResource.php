@@ -13,11 +13,14 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use Filament\Forms\Components\Tabs;
+use Filament\Support\Enums\IconPosition;
 
 class RevisionesResource extends Resource
 {
@@ -40,8 +43,14 @@ class RevisionesResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\DatePicker::make('fecharev')
+        ->schema([
+            Tabs::make('Tabs')
+            ->tabs([
+                Tabs\Tab::make('General')
+                ->icon('heroicon-m-rectangle-group')
+                ->iconPosition(IconPosition::After)
+                    ->schema([
+                    Forms\Components\DatePicker::make('fecharev')
                     ->label('Fecha de revision')
                     ->required()
                     ,
@@ -53,160 +62,165 @@ class RevisionesResource extends Resource
                 Forms\Components\Select::make('tecnicos')
                     ->relationship('emptecnicos','nombre')
                     ->searchable()
-                    ->required(),
+                    ->required()
+                    ->label("Tecnico"),
                 Forms\Components\TextInput::make('tipoequip')
                     ->label("Tipo de equipo")
-                    ->required()
+                    
                     ->maxLength(191),
                 Forms\Components\TextInput::make('marca')
-                    ->required()
+                    
                     ->maxLength(191),
                 Forms\Components\TextInput::make('capacidad')
-                    ->required()
+                    
                     ->maxLength(191),
-                Forms\Components\TextInput::make('voltajeplacaq')
-                ->label("Voltaje de placa Evaporadora")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('voltajeconsumoq')
-                ->label("Voltaje de consumo Evaporadora")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('amperajeplaceq')
-                ->label("Amperaje de la placa Evaporadora")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('amperajel1q')
-                ->label("Amperaje L1")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('amperajel2q')
-                ->label("Amperaje L2")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('amperajel3q')
-                ->label("Amperaje L3")
-                    ->required()
-                    ->maxLength(191),
+                
                 Forms\Components\TextInput::make('tempambientec')
                 ->label("Temperatura Ambiente")
-                    ->required()
+                    
                     ->maxLength(191),
                 Forms\Components\TextInput::make('tiporefric')
                 ->label("Tipo de refrigeracion")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('modelevaporc')
-                ->label("Modelo de la Evaporadora")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('serialevaporc')
-                ->label("Serial de la Evaporadora")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('voltajeplacac')
-                ->label("Voltaje de la placa Condensadora")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('voltajeconsumoc')
-                ->label("Voltaje de consumo Condensadora")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('amperajeplacec')
-                ->label("Amperaje de placa Condensadora ")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('amperajel1c')
-                ->label("Amperaje L1")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('amperajel2c')
-                ->label("Amperaje L2")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('amperajel3c')
-                ->label("Amperaje L3")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('psuccionq')
-                ->label("P. Succion")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('pdescargaq')
-                ->label("P. Descarga")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('modelcondensaq')
-                ->label("Modelo de la Condensadora")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('serialcondensaq')
-                ->label("Serial de la Condensadora")
-                    ->required()
+                    
                     ->maxLength(191),
                 Forms\Components\TextInput::make('funciona')
-                    ->required()
+                    
                     ->maxLength(191),
                 Forms\Components\TextInput::make('cargarefri')
                 ->label("Carga de refrigerante")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('sepertinc')
-                ->label("Serpentin Condensador")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('serpetine')
-                ->label("Serpentin Evaporadora")
-                    ->required()
+                    
                     ->maxLength(191),
                 Forms\Components\TextInput::make('filtro')
                 ->label("Filtro")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('ventiladorc')
-                ->label("Ventilador de Condensadora")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('ventiladore')
-                ->label("Ventilador de la Evaporadora")
-                    ->required()
+                    
                     ->maxLength(191),
                 Forms\Components\TextInput::make('compresor')
                 ->label("Compresor")
-                    ->required()
+                    
                     ->maxLength(191),
                 Forms\Components\TextInput::make('tuboescape')
                 ->label("Tubo de escape")
-                    ->required()
+                    
                     ->maxLength(191),
                 Forms\Components\TextInput::make('tuboaislado')
                 ->label("Tubo Aislado")
-                    ->required()
+                    
                     ->maxLength(191),
                 Forms\Components\TextInput::make('tubosoporte')
                 ->label("Tubo de Soporte")
-                    ->required()
+                    
                     ->maxLength(191),
                 Forms\Components\TextInput::make('breakers')
                 ->label("Breakers")
-                    ->required()
+                    
                     ->maxLength(191),
                 Forms\Components\TextInput::make('protector')
-                ->label("Proterctor")
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('cableadoe')
-                ->label("Cableado de la Evaporadora")
-                    ->required()
+                ->label("Protector")
+                    
                     ->maxLength(191),
                 Forms\Components\TextInput::make('lugartrabajo')
                 ->label("Lugar de Trabajo")
-                    ->required()
+                    
                     ->maxLength(191),
                 Forms\Components\TextInput::make('notas')
-                    ->required()
                     ->maxLength(191),
-            ]);
+                    ])->columns(3),
+                Tabs\Tab::make('Evaporadora')
+                ->icon('heroicon-m-squares-2x2')
+                ->iconPosition(IconPosition::After)
+                    ->schema([
+                        Forms\Components\TextInput::make('voltajeplacaq')
+                        ->label("Voltaje de placa Evaporadora")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('voltajeconsumoq')
+                        ->label("Voltaje de consumo Evaporadora")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('amperajeplaceq')
+                        ->label("Amperaje de la placa Evaporadora")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('amperajel1q')
+                        ->label("Amperaje L1")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('amperajel2q')
+                        ->label("Amperaje L2")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('amperajel3q')
+                        ->label("Amperaje L3")
+                            ->maxLength(191),
+                            Forms\Components\TextInput::make('modelevaporc')
+                        ->label("Modelo de la Evaporadora")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('serialevaporc')
+                        ->label("Serial de la Evaporadora")
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('serpetine')
+                        ->label("Serpentin Evaporadora")
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('ventiladorc')
+                        ->label("Ventilador de Condensadora")    
+                            ->maxLength(191),
+                    ])->columns(3),
+                Tabs\Tab::make('Condensadora')
+                ->icon('heroicon-m-squares-2x2')
+                ->iconPosition(IconPosition::After)
+                    ->schema([
+                        Forms\Components\TextInput::make('voltajeconsumoc')
+                        ->label("Voltaje de consumo Condensadora")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('amperajeplacec')
+                        ->label("Amperaje de placa Condensadora ")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('amperajel1c')
+                        ->label("Amperaje L1")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('amperajel2c')
+                        ->label("Amperaje L2")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('amperajel3c')
+                        ->label("Amperaje L3")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('psuccionq')
+                        ->label("P. Succion")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('pdescargaq')
+                        ->label("P. Descarga")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('modelcondensaq')
+                        ->label("Modelo de la Condensadora")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('serialcondensaq')
+                        ->label("Serial de la Condensadora")
+                            
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('voltajeplacac')
+                        ->label("Voltaje de la placa Condensadora")
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('sepertinc')
+                        ->label("Serpentin Condensadora")    
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('ventiladore')
+                        ->label("Ventilador de la Evaporadora")
+                            ->maxLength(191),
+                        Forms\Components\TextInput::make('cableadoe')
+                        ->label("Cableado de la Evaporadora")
+                            ->maxLength(191),
+                    ])->columns(3),
+            ])       
+    ]);
     }
 
     public static function table(Table $table): Table
@@ -223,7 +237,7 @@ class RevisionesResource extends Resource
                 ->searchable()
                 ->label("ID de Orden")
                 ,
-                Tables\Columns\TextColumn::make('tecnicos')
+                Tables\Columns\TextColumn::make('emptecnicos.nombre')
                     ->searchable()
                     ->label("Tecnico Encargado")
                     ,
@@ -399,8 +413,9 @@ class RevisionesResource extends Resource
                     EditAction::make(),
                     DeleteAction::make(),
                     ExportAction::make(),
-                ]),
-            ])
+                ])->tooltip('Actions')
+                ->color('info'),
+            ],position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ExportBulkAction::make(),
