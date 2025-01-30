@@ -42,7 +42,7 @@ class StatsOverview extends BaseWidget
         //     ->chart(revisiones::query()->count() < 1 ? [6, 1, 9, 7, 14, 2, 0] : [7, 2, 10, 8, 15, 4, 19])
         //     ->color('warning'),
 
-            // Stat::make('fecha actual', date('l j F Y'))sss
+            // Stat::make('fecha actual', date('l j F Y'))
         ];
     }
 }
