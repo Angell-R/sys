@@ -23,6 +23,7 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 class EmpresaResource extends Resource
 {
     protected static ?string $model = Empresa::class;
+    protected static ?string $navigationGroup = 'Administracion';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Empresas';
@@ -32,9 +33,9 @@ class EmpresaResource extends Resource
         return static::getModel()::count();
     }
     public static function getNavigationBadgeColor(): ?string
-{
-    return static::getModel()::count() > 1 ? 'info' : 'gray';
-}
+    {
+        return static::getModel()::count() > 1 ? 'info' : 'gray';
+    }
 
     public static function form(Form $form): Form
     {
@@ -70,8 +71,8 @@ class EmpresaResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-        ->emptyStateHeading('Aun no hay Empresas')
-        ->emptyStateDescription('Agrega Una Empresa')
+            ->emptyStateHeading('Aun no hay Empresas')
+            ->emptyStateDescription('Agrega Una Empresa')
             ->columns([
                 Tables\Columns\TextColumn::make('rif')
                     ->searchable(),
@@ -84,8 +85,10 @@ class EmpresaResource extends Resource
                 Tables\Columns\TextColumn::make('sucursal')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                ->label('Correo')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('direct')
+                ->label('Direccion')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -101,13 +104,12 @@ class EmpresaResource extends Resource
             ])
             ->actions([
                 ActionGroup::make([
-                    ViewAction::make(),
                     EditAction::make(),
                     DeleteAction::make(),
                     ExportAction::make(),
                 ])->tooltip('Actions')
-                ->color('info'),
-            ],position: ActionsPosition::BeforeColumns)
+                    ->color('info'),
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ExportBulkAction::make(),
@@ -118,14 +120,14 @@ class EmpresaResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -133,5 +135,5 @@ class EmpresaResource extends Resource
             'create' => Pages\CreateEmpresa::route('/create'),
             'edit' => Pages\EditEmpresa::route('/{record}/edit'),
         ];
-    }    
+    }
 }

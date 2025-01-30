@@ -29,6 +29,8 @@ class PermissionResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-finger-print';
     protected static ?int $navigationSort = 5;
     protected static ?string $navigationGroup = 'Configuracion';
+    protected static ?string $navigationLabel = 'Permisos';
+    protected static ?string $modelLabel = 'Permisos';
 
 
     public static function form(Form $form): Form
@@ -36,10 +38,10 @@ class PermissionResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                ->minLength(2)
-                ->maxLength(255)
-                ->required()
-                ->unique(ignoreRecord: true),
+                    ->minLength(2)
+                    ->maxLength(255)
+                    ->required()
+                    ->unique(ignoreRecord: true),
             ]);
     }
 
@@ -48,19 +50,19 @@ class PermissionResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                ->label("Nombre"),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 ActionGroup::make([
-                    ViewAction::make(),
                     EditAction::make(),
                     DeleteAction::make(),
                     ExportAction::make(),
                 ])->tooltip('Actions')
-                ->color('info'),
-            ],position: ActionsPosition::BeforeColumns)
+                    ->color('info'),
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -70,14 +72,14 @@ class PermissionResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -85,5 +87,5 @@ class PermissionResource extends Resource
             'create' => Pages\CreatePermission::route('/create'),
             'edit' => Pages\EditPermission::route('/{record}/edit'),
         ];
-    }    
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Edwink\FilamentUserActivity\FilamentUserActivityPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -23,13 +24,29 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+        ->plugins([
+            FilamentUserActivityPlugin::make()
+        ])
             ->default()
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName('RONDON LUGO')
             ->colors([
-                'primary' => Color::Amber,
+                'danger' => Color::Rose,
+                'gray' => Color::Gray,
+                'info' => Color::Blue,
+                'primary' => Color::Indigo,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
             ])
+            ->topNavigation()
+            // ->unsavedChangesAlerts()
+            ->navigationGroups([
+                'Administracion',
+                'Configuracion',
+            ])
+            ->sidebarWidth('40rem')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -54,5 +71,6 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+
     }
 }

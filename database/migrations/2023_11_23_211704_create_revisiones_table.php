@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('revisiones', function (Blueprint $table) {
             $table->id();
+            $table->string('Nombre_de_Revision');
             $table->string('fecharev');
             $table->foreignId('id_ordens');
             $table->string('tecnicos');

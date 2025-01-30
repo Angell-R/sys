@@ -32,6 +32,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $navigationGroup = 'Configuracion';
+    protected static ?string $navigationLabel = 'Usuarios';
+    protected static ?string $modelLabel = 'Usuarios';
 
     protected static ?int $navigationSort = 7;
 
@@ -49,19 +51,19 @@ class UserResource extends Resource
                 Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                    ->dehydrated(fn ($state) => filled($state))
-                    ->required(fn (Page $livewire) => ($livewire instanceof CreateUser))
+                    ->dehydrateStateUsing(fn($state) => Hash::make($state))
+                    ->dehydrated(fn($state) => filled($state))
+                    ->required(fn(Page $livewire) => ($livewire instanceof CreateUser))
                     ->maxLength(191),
-                    Select::make('roles')
+                Select::make('roles')
                     ->label('Rol')
                     ->multiple()
-                    ->relationship('roles','name')
+                    ->relationship('roles', 'name')
                     ->preload(),
-                    Select::make('permissions')
+                Select::make('permissions')
                     ->label('Permisos')
                     ->multiple()
-                    ->relationship('permissions','name')
+                    ->relationship('permissions', 'name')
                     ->preload()
             ]);
     }
@@ -71,12 +73,15 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                ->label("Nombre")
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                ->label("Correo")
                     ->searchable(),
                 TagsColumn::make('roles.name')
-                ->label('Rol'),
+                    ->label('Rol'),
                 Tables\Columns\TextColumn::make('email_verified_at')
+                ->label("Correo verificado")
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -92,14 +97,14 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                    ActionGroup::make([
-                        ViewAction::make(),
-                        EditAction::make(),
-                        DeleteAction::make(),
-                        ExportAction::make(),
-                    ])->tooltip('Actions')
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                    ExportAction::make(),
+                ])->tooltip('Actions')
                     ->color('info'),
-                ],position: ActionsPosition::BeforeColumns)
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -109,14 +114,14 @@ class UserResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -124,5 +129,5 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
-    }    
+    }
 }

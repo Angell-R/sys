@@ -36,14 +36,14 @@ class RoleResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                ->minLength(2)
-                ->maxLength(255)
-                ->unique(ignoreRecord: true),
+                    ->minLength(2)
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true),
                 Select::make('permissions')
-                ->label('Permisos')
-                ->multiple()
-                ->relationship('permissions','name')
-                ->preload()
+                    ->label('Permisos')
+                    ->multiple()
+                    ->relationship('permissions', 'name')
+                    ->preload()
             ]);
     }
 
@@ -51,14 +51,19 @@ class RoleResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->sortable(),
-                TextColumn::make('name'),
+                TextColumn::make('id')
+                ->sortable()
+                ->label("Rol ID")
+                ->hidden(),
+                TextColumn::make('name')
+                ->label("Nombre"),
                 TextColumn::make('created_at')
-                ->dateTime('d-M-Y')->sortable(),
+                    ->dateTime('d-M-Y')->sortable()
+                    ->label("Creado el"),
                 tagsColumn::make('permissions.name')
-                ->color('success')
-                ->label('Permisos')
-                ->searchable(),
+                    ->color('success')
+                    ->label('Permisos')
+                    ->searchable(),
             ])
             ->filters([
                 //
@@ -70,8 +75,8 @@ class RoleResource extends Resource
                     DeleteAction::make(),
                     ExportAction::make(),
                 ])->tooltip('Actions')
-                ->color('info'),
-            ],position: ActionsPosition::BeforeColumns)
+                    ->color('info'),
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -81,14 +86,14 @@ class RoleResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -96,10 +101,10 @@ class RoleResource extends Resource
             'create' => Pages\CreateRole::route('/create'),
             'edit' => Pages\EditRole::route('/{record}/edit'),
         ];
-    }  
-    
+    }
+
     public static function getEloquentQuery(): Builder
-{
-    return parent::getEloquentQuery()->where('name', '!=', 'Admin');
-}
+    {
+        return parent::getEloquentQuery()->where('name', '!=', 'Admin');
+    }
 }
