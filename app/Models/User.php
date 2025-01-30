@@ -48,8 +48,8 @@ class User extends Authenticatable implements FilamentUser
         'password' => 'hashed',
     ];
 
-//     public function canAccessPanel(Panel $panel): bool
-//     {
-//         return $this->hasRole(['Admin','Empleado']);
-// }
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->hasRole(['Admin','Empleado']);
+}
 }

@@ -13,7 +13,7 @@ class EmpresaPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasRole('Admin');
+        // return $user->hasRole('Admin');
     }
 
     /**
